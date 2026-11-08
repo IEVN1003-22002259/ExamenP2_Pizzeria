@@ -1,0 +1,229 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+        Consultar ventas
+    </h2>
+
+    <p class="text-gray-500 mb-6">
+        Consulta los pedidos registrados por día de la semana o por mes.
+    </p>
+
+    <!-- Ventas por día -->
+
+    <div class="border border-gray-200 rounded-xl p-5 mb-6">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Ventas por día de la semana
+        </h3>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+
+            <select [value]="diaSeleccionado" (change)="diaSeleccionado = $any($event.target).value"
+                class="w-full sm:w-64 border border-gray-300 rounded-lg p-2.5">
+
+                <option value="lunes">Lunes</option>
+                <option value="martes">Martes</option>
+                <option value="miercoles">Miércoles</option>
+                <option value="jueves">Jueves</option>
+                <option value="viernes">Viernes</option>
+                <option value="sabado">Sábado</option>
+                <option value="domingo">Domingo</option>
+
+            </select>
+
+            <button type="button" (click)="consultarDia()"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg px-5 py-2.5">
+                Consultar día
+            </button>
+
+        </div>
+
+        <p *ngIf="mensajeDia" class="text-center text-gray-500 mt-5">
+            {{ mensajeDia }}
+        </p>
+
+        <div class="overflow-x-auto mt-5" *ngIf="ventasDia.length > 0">
+
+            <table class="w-full text-sm text-left text-gray-600">
+
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="px-4 py-3">Folio</th>
+                        <th class="px-4 py-3">Cliente</th>
+                        <th class="px-4 py-3">Fecha</th>
+                        <th class="px-4 py-3">Total</th>
+                        <th class="px-4 py-3">Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let venta of ventasDia" class="border-b">
+
+                        <td class="px-4 py-3">
+                            {{ venta.id_pedido }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ venta.nombre_cliente }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ venta.fecha_pedido }}
+                        </td>
+
+                        <td class="px-4 py-3 font-semibold">
+                            {{ venta.total | currency:'MXN' }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            <button type="button" (click)="verDetalle(venta.id_pedido!)"
+                                class="text-blue-700 hover:underline">
+                                Ver detalle
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Ventas por mes -->
+
+    <div class="border border-gray-200 rounded-xl p-5">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Ventas por mes
+        </h3>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+
+            <select [value]="mesSeleccionado" (change)="mesSeleccionado = $any($event.target).value"
+                class="w-full sm:w-64 border border-gray-300 rounded-lg p-2.5">
+
+                <option value="enero">Enero</option>
+                <option value="febrero">Febrero</option>
+                <option value="marzo">Marzo</option>
+                <option value="abril">Abril</option>
+                <option value="mayo">Mayo</option>
+                <option value="junio">Junio</option>
+                <option value="julio">Julio</option>
+                <option value="agosto">Agosto</option>
+                <option value="septiembre">Septiembre</option>
+                <option value="octubre">Octubre</option>
+                <option value="noviembre">Noviembre</option>
+                <option value="diciembre">Diciembre</option>
+
+            </select>
+
+            <button type="button" (click)="consultarMes()"
+                class="bg-green-700 hover:bg-green-800 text-white rounded-lg px-5 py-2.5">
+                Consultar mes
+            </button>
+
+        </div>
+
+        <p *ngIf="mensajeMes" class="text-center text-gray-500 mt-5">
+            {{ mensajeMes }}
+        </p>
+
+        <!-- Resumen del mes -->
+
+        <div *ngIf="ventasMes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+
+            <div class="bg-blue-50 rounded-xl p-4">
+                <p class="text-sm text-gray-600">
+                    Pedidos registrados
+                </p>
+
+                <h3 class="text-2xl font-bold text-blue-700">
+                    {{ cantidadPedidos }}
+                </h3>
+            </div>
+
+            <div class="bg-green-50 rounded-xl p-4">
+                <p class="text-sm text-gray-600">
+                    Total acumulado de ventas
+                </p>
+
+                <h3 class="text-2xl font-bold text-green-700">
+                    {{ totalVentas | currency:'MXN' }}
+                </h3>
+            </div>
+
+        </div>
+
+        <!-- Pedidos del mes -->
+
+        <div class="overflow-x-auto mt-5" *ngIf="ventasMes.length > 0">
+
+            <h4 class="font-semibold text-gray-800 mb-3">
+                Pedidos del mes seleccionado
+            </h4>
+
+            <table class="w-full text-sm text-left text-gray-600">
+
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="px-4 py-3">Folio</th>
+                        <th class="px-4 py-3">Cliente</th>
+                        <th class="px-4 py-3">Fecha</th>
+                        <th class="px-4 py-3">Total</th>
+                        <th class="px-4 py-3">Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let venta of ventasMes" class="border-b">
+
+                        <td class="px-4 py-3">
+                            {{ venta.id_pedido }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ venta.nombre_cliente }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ venta.fecha_pedido }}
+                        </td>
+
+                        <td class="px-4 py-3 font-semibold">
+                            {{ venta.total | currency:'MXN' }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            <button type="button" (click)="verDetalle(venta.id_pedido!)"
+                                class="text-blue-700 hover:underline">
+                                Ver detalle
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Botón regresar -->
+
+    <div class="flex justify-end mt-6">
+
+        <button type="button" (click)="router.navigate(['/pizzeria/pedidos'])"
+            class="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-5 py-2.5">
+            Regresar a pedidos
+        </button>
+
+    </div>
+
+</div>

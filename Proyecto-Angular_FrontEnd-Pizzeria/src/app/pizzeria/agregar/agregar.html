@@ -1,0 +1,434 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+        Registrar nuevo pedido
+    </h2>
+
+    <p class="text-gray-500 mb-6">
+        Completa los datos del cliente y personaliza sus pizzas.
+    </p>
+
+    <form [formGroup]="formulario">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Datos del cliente
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Nombre del cliente
+                </label>
+                <input type="text" formControlName="nombre_cliente"
+                    class="w-full border border-gray-300 rounded-lg p-2.5" placeholder="Nombre completo">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-700">
+                    Teléfono
+                </label>
+
+                <input type="tel" formControlName="telefono" maxlength="10" minlength="10" inputmode="numeric"
+                    pattern="[0-9]{10}"
+                    class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    placeholder="Ej. 4771234567">
+
+                <p class="text-xs text-gray-500 mt-1">
+                    Ingresa únicamente 10 dígitos.
+                </p>
+
+                <p *ngIf="formulario.get('telefono')?.invalid && formulario.get('telefono')?.touched"
+                    class="text-sm text-red-600 mt-1">
+                    El teléfono debe contener exactamente 10 números.
+                </p>
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Dirección
+                </label>
+                <input type="text" formControlName="direccion" class="w-full border border-gray-300 rounded-lg p-2.5"
+                    placeholder="Dirección del cliente">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Fecha del pedido
+                </label>
+                <input type="date" formControlName="fecha_pedido"
+                    class="w-full border border-gray-300 rounded-lg p-2.5">
+            </div>
+
+        </div>
+
+        <hr class="my-6">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Personaliza tu pizza
+        </h3>
+
+        <!-- Tamaño de pizza -->
+
+        <div class="mb-7">
+
+            <label class="block mb-3 text-lg font-bold text-gray-800">
+                Selecciona el tamaño de tu pizza
+            </label>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                <!-- Pizza chica -->
+
+                <label class="cursor-pointer">
+
+                    <input type="radio" formControlName="tamano" value="Chica" (change)="calcularSubtotal()"
+                        class="sr-only peer">
+
+                    <div class="border-2 border-gray-200 rounded-xl p-5 text-center
+                        transition-all duration-200
+                        hover:border-red-400 hover:shadow-md
+                        peer-checked:border-red-600
+                        peer-checked:bg-red-50
+                        peer-checked:ring-2
+                        peer-checked:ring-red-100">
+
+                        <div class="text-4xl mb-3">🍕</div>
+
+                        <h4 class="font-bold text-gray-800 text-lg">
+                            Chica
+                        </h4>
+
+                        <p class="text-sm text-gray-500 mb-3">
+                            Ideal para una persona
+                        </p>
+
+                        <p class="text-2xl font-bold text-red-600">
+                            $40.00
+                        </p>
+
+                        <span class="inline-block mt-3 text-xs font-semibold text-gray-500">
+                            Seleccionar
+                        </span>
+
+                    </div>
+
+                </label>
+
+                <!-- Pizza mediana -->
+
+                <label class="cursor-pointer">
+
+                    <input type="radio" formControlName="tamano" value="Mediana" (change)="calcularSubtotal()"
+                        class="sr-only peer">
+
+                    <div class="border-2 border-gray-200 rounded-xl p-5 text-center
+                        transition-all duration-200
+                        hover:border-red-400 hover:shadow-md
+                        peer-checked:border-red-600
+                        peer-checked:bg-red-50
+                        peer-checked:ring-2
+                        peer-checked:ring-red-100">
+
+                        <div class="text-4xl mb-3">🍕</div>
+
+                        <h4 class="font-bold text-gray-800 text-lg">
+                            Mediana
+                        </h4>
+
+                        <p class="text-sm text-gray-500 mb-3">
+                            Ideal para compartir
+                        </p>
+
+                        <p class="text-2xl font-bold text-red-600">
+                            $80.00
+                        </p>
+
+                        <span class="inline-block mt-3 text-xs font-semibold text-gray-500">
+                            Seleccionar
+                        </span>
+
+                    </div>
+
+                </label>
+
+                <!-- Pizza grande -->
+
+                <label class="cursor-pointer">
+
+                    <input type="radio" formControlName="tamano" value="Grande" (change)="calcularSubtotal()"
+                        class="sr-only peer">
+
+                    <div class="border-2 border-gray-200 rounded-xl p-5 text-center
+                        transition-all duration-200
+                        hover:border-red-400 hover:shadow-md
+                        peer-checked:border-red-600
+                        peer-checked:bg-red-50
+                        peer-checked:ring-2
+                        peer-checked:ring-red-100">
+
+                        <div class="text-4xl mb-3">🍕</div>
+
+                        <h4 class="font-bold text-gray-800 text-lg">
+                            Grande
+                        </h4>
+
+                        <p class="text-sm text-gray-500 mb-3">
+                            Ideal para toda la familia
+                        </p>
+
+                        <p class="text-2xl font-bold text-red-600">
+                            $120.00
+                        </p>
+
+                        <span class="inline-block mt-3 text-xs font-semibold text-gray-500">
+                            Seleccionar
+                        </span>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Ingredientes -->
+
+        <div class="mb-6">
+
+            <label class="block mb-3 font-semibold text-gray-700">
+                Selecciona los ingredientes
+            </label>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                <label class="border rounded-lg p-4 cursor-pointer hover:bg-gray-50 flex items-center gap-3">
+                    <input type="checkbox" formControlName="jamon" (change)="calcularSubtotal()"
+                        class="w-5 h-5 accent-red-600">
+
+                    <span class="text-gray-700">
+                        Jamón
+                        <span class="block text-sm font-bold text-red-600">
+                            + $10
+                        </span>
+                    </span>
+                </label>
+
+                <label class="border rounded-lg p-4 cursor-pointer hover:bg-gray-50 flex items-center gap-3">
+                    <input type="checkbox" formControlName="pina" (change)="calcularSubtotal()"
+                        class="w-5 h-5 accent-red-600">
+
+                    <span class="text-gray-700">
+                        Piña
+                        <span class="block text-sm font-bold text-red-600">
+                            + $10
+                        </span>
+                    </span>
+                </label>
+
+                <label class="border rounded-lg p-4 cursor-pointer hover:bg-gray-50 flex items-center gap-3">
+                    <input type="checkbox" formControlName="champinones" (change)="calcularSubtotal()"
+                        class="w-5 h-5 accent-red-600">
+
+                    <span class="text-gray-700">
+                        Champiñones
+                        <span class="block text-sm font-bold text-red-600">
+                            + $10
+                        </span>
+                    </span>
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Cantidad y precios -->
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Cantidad de pizzas
+                </label>
+                <input type="number" formControlName="cantidad" (input)="calcularSubtotal()" min="1"
+                    class="w-full border border-gray-300 rounded-lg p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Precio por pizza
+                </label>
+                <input type="text" [value]="(precioBase + precioIngredientes) | currency:'MXN'" readonly
+                    class="w-full border border-gray-300 rounded-lg p-2.5 bg-gray-100">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Subtotal
+                </label>
+                <input type="text" [value]="subtotal | currency:'MXN'" readonly
+                    class="w-full border border-gray-300 rounded-lg p-2.5 bg-gray-100 font-bold">
+            </div>
+
+        </div>
+
+        <button type="button" (click)="agregarPizza()"
+            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg px-5 py-2.5">
+            + Agregar pizza
+        </button>
+
+        <hr class="my-6">
+
+        <!-- Detalle del pedido -->
+
+        <div class="mt-8 mb-4 flex items-center justify-between">
+
+            <div>
+                <h3 class="text-xl font-bold text-gray-800">
+                    Detalle del pedido
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-1">
+                    Pizzas agregadas al pedido actual
+                </p>
+            </div>
+
+            <span class="bg-orange-100 text-orange-700 text-sm font-semibold px-3 py-1 rounded-full">
+                {{ detalle.length }} pizzas
+            </span>
+
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+
+            <table class="w-full text-sm text-left text-gray-600">
+
+                <thead class="text-xs uppercase text-white bg-gray-800">
+
+                    <tr>
+                        <th class="px-6 py-4 font-semibold">
+                            Tamaño
+                        </th>
+
+                        <th class="px-6 py-4 font-semibold">
+                            Ingredientes
+                        </th>
+
+                        <th class="px-6 py-4 text-center font-semibold">
+                            Cantidad
+                        </th>
+
+                        <th class="px-6 py-4 text-center font-semibold">
+                            Subtotal
+                        </th>
+
+                        <th class="px-6 py-4 text-center font-semibold">
+                            Acción
+                        </th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="divide-y divide-gray-100 bg-white">
+
+                    <tr *ngFor="let pizza of detalle; let i = index"
+                        class="hover:bg-orange-50 transition-colors duration-200">
+
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-2 font-semibold text-gray-800">
+                                🍕 {{ pizza.tamano }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-gray-600">
+                            {{ pizza.ingredientes }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <span class="bg-gray-100 text-gray-700 font-semibold px-3 py-1 rounded-lg">
+                                {{ pizza.cantidad }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center font-bold text-gray-800">
+                            {{ pizza.subtotal | currency:'MXN' }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+
+                            <button type="button" (click)="quitarPizza(i)"
+                                class="inline-flex items-center gap-1 text-red-600 bg-red-50 hover:bg-red-100 font-medium px-3 py-2 rounded-lg transition-colors duration-200">
+
+                                <span>✕</span>
+                                Quitar
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr *ngIf="detalle.length === 0">
+
+                        <td colspan="5" class="px-6 py-12 text-center">
+
+                            <div class="text-4xl mb-3">
+                                🍕
+                            </div>
+
+                            <p class="font-semibold text-gray-700">
+                                No hay pizzas agregadas
+                            </p>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Selecciona el tamaño y los ingredientes para agregar una pizza.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Total -->
+
+        <div class="flex justify-end mt-6">
+
+            <div class="bg-gray-100 rounded-xl p-5 text-right min-w-52">
+
+                <span class="text-gray-600 text-sm">
+                    Total del pedido
+                </span>
+
+                <h3 class="text-2xl font-bold text-red-600">
+                    {{ total | currency:'MXN' }}
+                </h3>
+
+            </div>
+
+        </div>
+
+        <!-- Botones -->
+
+        <div class="flex flex-wrap justify-end gap-3 mt-6">
+
+            <button type="button" (click)="regresar()"
+                class="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-5 py-2.5">
+                Regresar
+            </button>
+
+            <button type="button" (click)="terminarPedido()"
+                class="bg-green-700 hover:bg-green-800 text-white rounded-lg px-5 py-2.5">
+                Terminar pedido
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

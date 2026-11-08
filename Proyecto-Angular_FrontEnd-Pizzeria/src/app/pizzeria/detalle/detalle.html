@@ -1,0 +1,132 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+        Detalle del pedido
+    </h2>
+
+    <p class="text-gray-500 mb-6">
+        Consulta la información del cliente y las pizzas registradas.
+    </p>
+
+    <div *ngIf="detalle.length > 0">
+
+        <!-- Datos del pedido -->
+
+        <div class="bg-gray-50 border rounded-xl p-5 mb-6">
+
+            <h3 class="text-lg font-bold text-gray-800 mb-4">
+                Información del cliente
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <div>
+                    <p class="text-sm text-gray-500">Folio del pedido</p>
+                    <p class="font-semibold text-gray-800">
+                        #{{ detalle[0].id_pedido }}
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Nombre del cliente</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ detalle[0].nombre_cliente }}
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Fecha del pedido</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ detalle[0].fecha_pedido | date:'dd/MM/yyyy' }}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pizzas registradas -->
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Pizzas del pedido
+        </h3>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-sm text-left text-gray-600">
+
+                <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+                    <tr>
+                        <th class="px-4 py-3">Tamaño</th>
+                        <th class="px-4 py-3">Ingredientes</th>
+                        <th class="px-4 py-3">Cantidad</th>
+                        <th class="px-4 py-3">Subtotal</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let pizza of detalle" class="border-b hover:bg-gray-50">
+
+                        <td class="px-4 py-3 font-medium">
+                            {{ pizza.tamano }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ pizza.ingredientes }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ pizza.cantidad }}
+                        </td>
+
+                        <td class="px-4 py-3 font-semibold">
+                            {{ pizza.subtotal | currency:'MXN' }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Total -->
+
+        <div class="flex justify-end mt-6">
+
+            <div class="bg-gray-100 rounded-xl p-5 text-right min-w-52">
+
+                <span class="text-gray-600 text-sm">
+                    Total del pedido
+                </span>
+
+                <h3 class="text-2xl font-bold text-red-600">
+                    {{ detalle[0].total | currency:'MXN' }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Mensaje cuando no hay información -->
+
+    <div *ngIf="detalle.length === 0" class="text-center py-8 text-gray-500">
+        No se encontró información del pedido.
+    </div>
+
+    <!-- Regresar -->
+
+    <div class="flex justify-end mt-6">
+
+        <button type="button" (click)="regresar()"
+            class="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-5 py-2.5">
+            Regresar a ventas
+        </button>
+
+    </div>
+
+</div>

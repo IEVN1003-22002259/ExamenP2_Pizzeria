@@ -1,0 +1,138 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+        Editar pedido
+    </h2>
+
+    <p class="text-gray-500 mb-6">
+        Modifica los datos del cliente y consulta las pizzas registradas.
+    </p>
+
+    <form [formGroup]="formulario">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Datos del cliente
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Nombre del cliente
+                </label>
+                <input type="text" formControlName="nombre_cliente"
+                    class="w-full border border-gray-300 rounded-lg p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Teléfono
+                </label>
+                <input type="tel" formControlName="telefono" maxlength="10" minlength="10" inputmode="numeric"
+                    class="w-full border border-gray-300 rounded-lg p-2.5">
+
+                <p *ngIf="formulario.get('telefono')?.invalid &&
+                    formulario.get('telefono')?.touched" class="text-sm text-red-600 mt-1">
+                    El teléfono debe contener exactamente 10 números.
+                </p>
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Dirección
+                </label>
+                <input type="text" formControlName="direccion" class="w-full border border-gray-300 rounded-lg p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium">
+                    Fecha del pedido
+                </label>
+                <input type="date" formControlName="fecha_pedido"
+                    class="w-full border border-gray-300 rounded-lg p-2.5">
+            </div>
+
+        </div>
+
+        <hr class="my-6">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Pizzas del pedido
+        </h3>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-sm text-left text-gray-600">
+
+                <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+                    <tr>
+                        <th class="px-4 py-3">Tamaño</th>
+                        <th class="px-4 py-3">Ingredientes</th>
+                        <th class="px-4 py-3">Cantidad</th>
+                        <th class="px-4 py-3">Subtotal</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let pizza of detalle" class="border-b">
+
+                        <td class="px-4 py-3">
+                            {{ pizza.tamano }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ pizza.ingredientes }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ pizza.cantidad }}
+                        </td>
+
+                        <td class="px-4 py-3 font-semibold">
+                            {{ pizza.subtotal | currency:'MXN' }}
+                        </td>
+
+                    </tr>
+
+                    <tr *ngIf="detalle.length === 0">
+                        <td colspan="4" class="text-center py-5">
+                            No hay pizzas registradas.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="flex justify-end mt-6">
+            <div class="bg-gray-100 rounded-xl p-5 text-right">
+                <span class="text-gray-600 text-sm">
+                    Total del pedido
+                </span>
+
+                <h3 class="text-2xl font-bold text-red-600">
+                    {{ total | currency:'MXN' }}
+                </h3>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-end gap-3 mt-6">
+
+            <button type="button" (click)="regresar()"
+                class="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-5 py-2.5">
+                Regresar
+            </button>
+
+            <button type="button" (click)="guardarCambios()"
+                class="bg-green-700 hover:bg-green-800 text-white rounded-lg px-5 py-2.5">
+                Guardar cambios
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
